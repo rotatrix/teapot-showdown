@@ -18,7 +18,7 @@ import {
   lbRows, lbCompare,
 } from "./boards.js";
 import {
-  oaClient, oaTags, engageRotatrix, releaseRotatrix, sendObjectState,
+  engageRotatrix, releaseRotatrix, invalidateRotatrixContext,
 } from "./input-rotatrix.js";
 import { bumpActivity } from "./attract.js";
 
@@ -51,9 +51,6 @@ export function startGame() {
   game.state = "running";
   if (ui.inputMode === "rotatrix") {
     engageRotatrix();
-    // fresh connects send tags via onStateChange; an already-open
-    // connection needs the mode's tags pushed explicitly
-    if (oaClient?.getState() === "connected") oaClient.sendTags(oaTags());
   }
   resetMovable();
   applyGhostPose();
@@ -89,6 +86,7 @@ function applyGhostPose() {
   // off (essential in rot mode where the teapot sits right on top of
   // the ghost). The clock keeps running — see updateGame.
   game.phase = "preview";
+  if (ui.inputMode === "rotatrix") invalidateRotatrixContext();
   game.previewStart = performance.now();
   updateMovableVisibility();
 }
@@ -251,8 +249,8 @@ export function updateGame(now) {
       game.poseStartTime = now;
       game.phase = "active";
       updateMovableVisibility();
-      // discard whatever the host integrated during the preview
-      if (ui.inputMode === "rotatrix") sendObjectState();
+      // Start a fresh navigation context after the preview.
+      if (ui.inputMode === "rotatrix") invalidateRotatrixContext();
     }
     return;
   }

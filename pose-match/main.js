@@ -17,7 +17,7 @@ import {
 import { renderStartPanels, renderStartBoard, lbGroup } from "./boards.js";
 import "./input-mouse.js";
 import { nav, initSpaceMouse } from "./input-spacemouse.js";
-import { oaClient, oaTags, releaseRotatrix, probeRotatrix } from "./input-rotatrix.js";
+import { releaseRotatrix, probeRotatrix } from "./input-rotatrix.js";
 import { initAttract, stepAttract, requestAttract } from "./attract.js";
 import {
   registerModal, openModal, toggleModal, closeModal, activeModal,
@@ -40,22 +40,16 @@ window._3dxReady.then((ok) => {
 });
 
 const chkInvert = document.getElementById("chk-invert");
-const chkLefthand = document.getElementById("chk-lefthand");
 const chkRevWheel = document.getElementById("chk-revwheel");
 
-// settings checkboxes persist; the lefthand toggle also re-sends tags
-// so the host profile can switch without a reconnect
+// Settings checkboxes persist.
 for (const [chk, key] of [
   [chkInvert, "pose-match-invert-3dx"],
-  [chkLefthand, "pose-match-lefthand"],
   [chkRevWheel, "pose-match-revwheel"],
 ]) {
   chk.checked = localStorage.getItem(key) === "1";
   chk.addEventListener("change", () => {
     localStorage.setItem(key, chk.checked ? "1" : "0");
-    if (chk === chkLefthand && oaClient?.getState() === "connected") {
-      oaClient.sendTags(oaTags());
-    }
   });
 }
 
@@ -101,45 +95,6 @@ for (const link of overlayStart.querySelectorAll("[data-setup]")) {
   link.addEventListener("click", () => openSetupFor(link.dataset.setup));
 }
 
-// ── Device setup content ────────────────────────────────────────────
-
-// profile body in the shape the Rotatrix app's per-profile
-// "Edit as YAML" view expects (no `profiles:` wrapper, no name key);
-// rotatrix-profile.yaml in the repo is the same profile for
-// hand-merging into a config file
-document.getElementById("setup-yaml").value =
-`description: Teapot Showdown — activates on the game's app.teapot_showdown tag
-triggers:
-  - tag:app.teapot_showdown
-ball_mode: mouse
-bindings:
-  - name: Object
-    triggers:
-      - tag:object
-    ball_mode: rotatrix
-    navigation_mode: object
-    axis_map: obj_rotate
-    axis_dominance: off
-    label: Rotate
-    bindings:
-      - name: Translate
-        triggers:
-          - btn:2
-          - key:shift
-          - tag:translate
-        axis_map: obj_translate
-        axis_dominance: off
-        label:
-          text: Translate
-          mode: replace
-        bindings:
-          - name: Translate (lefthand)
-            triggers:
-              - tag:lefthand
-            axis_map: obj_translate_lefthand
-            axis_dominance: off
-`;
-
 // ── Touch play controls ─────────────────────────────────────────────
 
 // keyboard-free play controls (visible on touch devices while running)
@@ -157,19 +112,6 @@ for (const ev of ["pointerup", "pointercancel", "pointerleave"]) {
     updateMovableVisibility();
   });
 }
-
-const btnCopyYaml = document.getElementById("btn-copy-yaml");
-btnCopyYaml.addEventListener("click", async () => {
-  const yaml = document.getElementById("setup-yaml");
-  try {
-    await navigator.clipboard.writeText(yaml.value);
-  } catch {
-    yaml.select();
-    document.execCommand("copy");
-  }
-  btnCopyYaml.textContent = "copied ✓";
-  setTimeout(() => { btnCopyYaml.textContent = "copy"; }, 1500);
-});
 
 // ── Device availability ─────────────────────────────────────────────
 // the SpaceMouse / Rotatrix buttons start gray and only light up once
@@ -287,7 +229,8 @@ function updateHint() {
     return;
   }
   const mouseActive = ui.inputMode === "mouse" || ui.inputMode === "mouse-holroyd";
-  const mouseTips = !mouseActive ? []
+  const mouseTips = !mouseActive ? (ui.inputMode === "rotatrix"
+    ? (settings.gameMode === "trans" ? ["ball: move"] : settings.gameMode === "rot" ? ["ball: rotate"] : ["ball: rotate", "Shift + ball: move"]) : [])
     : settings.gameMode === "trans"
       ? ["drag: move", "wheel: depth"]
       : ["drag: rotate", "shift/right-drag: pan", "wheel: depth"];
@@ -343,10 +286,10 @@ document.getElementById("btn-defaults").addEventListener("click", () => {
   setTolLevel("loose");
   setTimeLimit(30);
   setMouseRot("trackball");
-  for (const chk of [chkInvert, chkLefthand, chkRevWheel]) {
+  for (const chk of [chkInvert, chkRevWheel]) {
     if (chk.checked) {
       chk.checked = false;
-      chk.dispatchEvent(new Event("change")); // persist + re-send tags
+      chk.dispatchEvent(new Event("change")); // persist
     }
   }
   if (!chkAttract.checked) {

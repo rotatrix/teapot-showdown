@@ -74,8 +74,6 @@
       <label class="set-check"><input type="checkbox" id="chk-revwheel" />reverse scroll wheel</label>
       <div class="set-head">SpaceMouse options</div>
       <label class="set-check"><input type="checkbox" id="chk-invert" />invert motion</label>
-      <div class="set-head">Rotatrix options</div>
-      <label class="set-check"><input type="checkbox" id="chk-lefthand" />left-hand mode (reverse depth translation)</label>
       <div class="set-head">Booth options</div>
       <label class="set-check"><input type="checkbox" id="chk-booth" />booth mode (name entry + staff claim chips)</label>
       <div id="booth-extras">
@@ -181,16 +179,19 @@
         <p>Don&rsquo;t have one? Get a Rotatrix at
            <a href="https://rotatrix.com/?utm_source=teapot_showdown" target="_blank" rel="noopener">rotatrix.com</a>.</p>
         <ol>
-          <li>Run the Rotatrix app.</li>
+          <li>Run Rotatrix <b>1.6.0 or newer</b>.</li>
           <li>Under <b>Integrations</b>, enable <b>Local HTTPS support</b>
               (required when playing the hosted https version of this game).</li>
-          <li>Create a new profile named <code>teapot_showdown</code>, click
-              <b>Edit as YAML</b>, and paste the profile below.</li>
+          <li>Use the bundled navigation controls. The ball rotates or moves the teapot for
+              the selected mode; in combined mode, hold <b>Shift</b> to move.</li>
         </ol>
-        <div class="yaml-box">
-          <textarea id="setup-yaml" readonly spellcheck="false"></textarea>
-          <button id="btn-copy-yaml">copy</button>
-        </div>
+        <p>No custom profile is required. Adjust sensitivity and axis mappings in Rotatrix.</p>
+        <p>If your custom controls interfere, <a href="__ROTATRIX_PROFILE_LINK__">install the optional
+           Teapot Showdown profile</a> or <a href="./teapot-showdown.rotatrix" download>download its file</a>.
+           Rotatrix opens an import review. Enable the profile and place it before broader profiles;
+           it activates only for this game.</p>
+        <p>Upgrading from the old game? Disable or replace its old <code>teapot_showdown</code>
+           profile, which used the obsolete <code>object</code> tag.</p>
       </div>
       <button class="set-defaults setup-close" data-modal="setup">close</button>
     </div>

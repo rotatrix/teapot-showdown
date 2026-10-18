@@ -1,7 +1,15 @@
+import { readFileSync } from "node:fs";
+import { profileLink } from "./lib/profile-link.js";
 import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
+  plugins: [{
+    name: "rotatrix-profile-link",
+    transformIndexHtml(html) {
+      return html.replace(/\r\n/g, "\n").replaceAll("__ROTATRIX_PROFILE_LINK__", profileLink(readFileSync(new URL("./public/teapot-showdown.rotatrix", import.meta.url), "utf8")));
+    },
+  }],
   server: {
     port: 5189,
     strictPort: true,

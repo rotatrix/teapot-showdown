@@ -4,7 +4,7 @@
 import * as THREE from "three";
 import { TeapotGeometry } from "three/examples/jsm/geometries/TeapotGeometry.js";
 import { ui, hasRotation, hasTranslation, tolDist, tolAngle } from "./state.js";
-import { sendObjectState } from "./input-rotatrix.js";
+import { invalidateRotatrixContext } from "./input-rotatrix.js";
 import { nav } from "./input-spacemouse.js";
 
 // ── Scene ───────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ teapotGeo.computeBoundingBox();
 
 // rotation pivot: center of the bowl — on the pot's vertical axis at
 // mid-height (the raw bbox center is dragged sideways by spout/handle)
-const PIVOT_LOCAL = new THREE.Vector3(
+export const PIVOT_LOCAL = new THREE.Vector3(
   0,
   (teapotGeo.boundingBox.min.y + teapotGeo.boundingBox.max.y) / 2,
   0,
@@ -291,7 +291,7 @@ export const HOME_POS = new THREE.Vector3(0, 2.2, 4);
 export function resetMovable() {
   movable.position.copy(HOME_POS);
   movable.quaternion.identity();
-  if (ui.inputMode === "rotatrix") sendObjectState();
+  if (ui.inputMode === "rotatrix") invalidateRotatrixContext();
   if (ui.inputMode === "spacemouse") nav.pushPivot();
 }
 resetMovable();

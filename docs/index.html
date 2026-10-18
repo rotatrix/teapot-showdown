@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Teapot Showdown</title>
-  <script type="module" crossorigin src="./assets/main-DHGexpw0.js"></script>
+  <script type="module" crossorigin src="./assets/main-BbPDlez3.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/pose-match-shared-Bu_67_Xk.js">
   <link rel="stylesheet" crossorigin href="./assets/main-Ddb9VShA.css">
 </head>
@@ -76,8 +76,6 @@
       <label class="set-check"><input type="checkbox" id="chk-revwheel" />reverse scroll wheel</label>
       <div class="set-head">SpaceMouse options</div>
       <label class="set-check"><input type="checkbox" id="chk-invert" />invert motion</label>
-      <div class="set-head">Rotatrix options</div>
-      <label class="set-check"><input type="checkbox" id="chk-lefthand" />left-hand mode (reverse depth translation)</label>
       <div class="set-head">Booth options</div>
       <label class="set-check"><input type="checkbox" id="chk-booth" />booth mode (name entry + staff claim chips)</label>
       <div id="booth-extras">
@@ -183,16 +181,19 @@
         <p>Don&rsquo;t have one? Get a Rotatrix at
            <a href="https://rotatrix.com/?utm_source=teapot_showdown" target="_blank" rel="noopener">rotatrix.com</a>.</p>
         <ol>
-          <li>Run the Rotatrix app.</li>
+          <li>Run Rotatrix <b>1.6.0 or newer</b>.</li>
           <li>Under <b>Integrations</b>, enable <b>Local HTTPS support</b>
               (required when playing the hosted https version of this game).</li>
-          <li>Create a new profile named <code>teapot_showdown</code>, click
-              <b>Edit as YAML</b>, and paste the profile below.</li>
+          <li>Use the bundled navigation controls. The ball rotates or moves the teapot for
+              the selected mode; in combined mode, hold <b>Shift</b> to move.</li>
         </ol>
-        <div class="yaml-box">
-          <textarea id="setup-yaml" readonly spellcheck="false"></textarea>
-          <button id="btn-copy-yaml">copy</button>
-        </div>
+        <p>No custom profile is required. Adjust sensitivity and axis mappings in Rotatrix.</p>
+        <p>If your custom controls interfere, <a href="rotatrix://import?v=1&data=H4sIAAAAAAAACrWVy47bMAxF9_kKQuuJgW7Tb-im066KwJAt2lZHFgWJeSP_XsjPOIndzgy6ik2JV-TRNXNZAYiCfC1ZbEB4YsleH9fZziqD4mVcTvfogyYrNvClCXuimHNZAQCIN21VVHCeCm0wNKkAwsoaY5xROuI0VHRQdLD9ssJCW82tbivVREPutevC4keTC69dLpA1pwS-x1oRDpor4Aohk8Z8hYqMgtdKFwxMUNMeQVvIqc60RQU1KUzgZ8AA2ip0aBVahlo6p20ZGjXaMeSVtKW2JRBX6EE6B31nSVc7gGCvyxJ9EBv41cViVJYb6Vxy33K3Yzukx4rTWFFssqZdwFE601ZpW6YBDeY9iEL7wKnMWe8ft06ruAxPN5fQIhsy53sY-tCW0cumgISy35hz4luRm73bieCkq95Q0zOt3OtSRtGUpS-x8V4rP90ojzqktXRPHJT6J800-xXV2kqbP_NdSkUxTTEyQzMH5ynae7wTxN9oP9VYhrwEmr20wUSPv-FpE6KnxV3y9uGkJWKD4GOBA4Wm_snq9famh-fry7LVHji832hjubNee3-3d53-X-f-1Ykjzn44rPq3BrDoR1SucQQ3zMl-6PYYwjgUZubu_VfzfAADiMNx8g4gaMdu1_5L3EGhoDoM4I_imUXE4bQgd5qXO83InRfkzvNy50fi7W8n_hmyj377ENw1z-OIa-_Gy_O3xXO3tYB3zfN849pHAA_fSeo8BuR_oH07x2c5K8xp5wymaGVmMB5YSBNwWtkqfnbX1R85Mt2pCwkAAA">install the optional
+           Teapot Showdown profile</a> or <a href="./teapot-showdown.rotatrix" download>download its file</a>.
+           Rotatrix opens an import review. Enable the profile and place it before broader profiles;
+           it activates only for this game.</p>
+        <p>Upgrading from the old game? Disable or replace its old <code>teapot_showdown</code>
+           profile, which used the obsolete <code>object</code> tag.</p>
       </div>
       <button class="set-defaults setup-close" data-modal="setup">close</button>
     </div>

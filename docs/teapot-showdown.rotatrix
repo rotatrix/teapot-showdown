@@ -1,0 +1,95 @@
+{
+  "format": "rotatrix-bundle",
+  "format_version": 1,
+  "root": {
+    "kind": "profiles",
+    "name": "teapot_showdown",
+    "definition": {
+      "description": "Teapot Showdown only. Rotate with the ball; hold Shift to move in combined mode. Uses independent mappings without changing other app profiles.",
+      "triggers": [
+        "tag:app.teapot_showdown"
+      ],
+      "ball_mode": "mouse",
+      "binding_selection": "first_active",
+      "bindings": [
+        {
+          "name": "Rotate",
+          "triggers": [
+            "tag:interaction.object.rotate"
+          ],
+          "ball_mode": "rotatrix",
+          "navigation_target": "object",
+          "axis_map": "teapot_showdown_rotate",
+          "axis_dominance": "teapot_showdown_off",
+          "label": "Rotate",
+          "bindings": [
+            {
+              "name": "Move",
+              "triggers": [
+                "tag:interaction.object.translate key:shift"
+              ],
+              "axis_map": "teapot_showdown_translate",
+              "label": "Move"
+            }
+          ]
+        },
+        {
+          "name": "Move",
+          "triggers": [
+            "tag:interaction.object.translate"
+          ],
+          "axis_map": "teapot_showdown_translate",
+          "label": "Move",
+          "ball_mode": "rotatrix",
+          "navigation_target": "object",
+          "axis_dominance": "teapot_showdown_off"
+        }
+      ]
+    }
+  },
+  "dependencies": [
+    {
+      "kind": "axis_maps",
+      "name": "teapot_showdown_rotate",
+      "definition": {
+        "wx": {
+          "output": "rx",
+          "osd": "obj rx"
+        },
+        "wy": {
+          "output": "ry",
+          "osd": "obj ry"
+        },
+        "wz": {
+          "output": "rz",
+          "osd": "obj rz"
+        }
+      }
+    },
+    {
+      "kind": "axis_maps",
+      "name": "teapot_showdown_translate",
+      "definition": {
+        "wx": {
+          "output": "-ty",
+          "osd": "obj -ty"
+        },
+        "wy": {
+          "output": "tx",
+          "osd": "obj tx"
+        },
+        "wz": {
+          "output": "-tz",
+          "osd": "obj -tz"
+        }
+      }
+    },
+    {
+      "kind": "axis_dominance_presets",
+      "name": "teapot_showdown_off",
+      "definition": {
+        "decouple_enabled": false
+      }
+    }
+  ]
+}
